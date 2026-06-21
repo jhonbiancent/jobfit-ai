@@ -55,10 +55,7 @@ export default function Home() {
   return (
     <main className="max-w-5xl mx-auto px-6 py-12 flex flex-col items-center">
       <div className="text-center mb-12 mt-10">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500/10 text-brand-500 mb-6 border border-brand-500/20">
-          <Sparkles className="w-4 h-4" />
-          <span className="text-sm font-medium tracking-wide">AI-Powered Resume Analysis</span>
-        </div>
+      
         <h1 className="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight">
           Is your resume <span className="gradient-text">JobFit?</span>
         </h1>
@@ -67,14 +64,14 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
         {/* Resume Upload */}
-        <div className="glass-card p-8 flex flex-col">
+        <div className="glass-card p-6 md:p-8 flex flex-col lg:col-span-1 min-h-[250px] lg:min-h-full">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
             <Upload className="w-5 h-5 text-brand-500" />
             1. Upload Resume
           </h2>
-          <div className="flex-1 border-2 border-dashed border-card-border rounded-xl p-8 flex flex-col items-center justify-center text-center transition-colors hover:border-brand-500/50 relative">
+          <div className="flex-1 border-2 border-dashed border-card-border rounded-xl p-4 md:p-8 flex flex-col items-center justify-center text-center transition-colors hover:border-brand-500/50 relative">
             <input
               type="file"
               accept=".pdf,.docx,.txt"
@@ -83,28 +80,28 @@ export default function Home() {
             />
             {file ? (
               <div className="flex flex-col items-center gap-3">
-                <div className="w-16 h-16 rounded-full bg-brand-500/20 flex items-center justify-center">
-                  <FileText className="w-8 h-8 text-brand-500" />
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-brand-500/20 flex items-center justify-center">
+                  <FileText className="w-6 h-6 md:w-8 md:h-8 text-brand-500" />
                 </div>
                 <div>
-                  <p className="font-medium text-slate-200">{file.name}</p>
-                  <p className="text-sm text-slate-400">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                  <p className="font-medium text-slate-200 break-all px-2 text-sm md:text-base">{file.name}</p>
+                  <p className="text-xs md:text-sm text-slate-400">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                 </div>
               </div>
             ) : (
               <>
-                <div className="w-16 h-16 rounded-full bg-slate-800/50 flex items-center justify-center mb-4">
-                  <Upload className="w-8 h-8 text-slate-400" />
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-slate-800/50 flex items-center justify-center mb-3 md:mb-4">
+                  <Upload className="w-6 h-6 md:w-8 md:h-8 text-slate-400" />
                 </div>
-                <p className="font-medium text-slate-300 mb-1">Click to upload</p>
-                <p className="text-sm text-slate-500">PDF, DOCX, or TXT (Max 5MB)</p>
+                <p className="font-medium text-slate-300 mb-1 text-sm md:text-base">Click to upload</p>
+                <p className="text-xs md:text-sm text-slate-500">PDF, DOCX, or TXT (Max 5MB)</p>
               </>
             )}
           </div>
         </div>
 
         {/* Job Description */}
-        <div className="glass-card p-8 flex flex-col">
+        <div className="glass-card p-6 md:p-8 flex flex-col lg:col-span-2">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
             <FileText className="w-5 h-5 text-accent" />
             2. Paste Job Description
@@ -113,7 +110,7 @@ export default function Home() {
             value={jdText}
             onChange={(e) => setJdText(e.target.value)}
             placeholder="Paste the full job description here..."
-            className="flex-1 w-full bg-black/20 border border-card-border rounded-xl p-4 text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/50 resize-none"
+            className="flex-1 w-full min-h-[300px] lg:min-h-[400px] bg-black/20 border border-card-border rounded-xl p-4 text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
           ></textarea>
         </div>
       </div>
