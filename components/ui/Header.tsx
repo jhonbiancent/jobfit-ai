@@ -1,25 +1,32 @@
 import Link from 'next/link';
-import { Sparkles, Briefcase } from 'lucide-react';
+import { Briefcase, Cat } from 'lucide-react';
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-card-border bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-card-border bg-[var(--background)]/80 backdrop-blur-xl">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center group-hover:bg-brand-500 transition-colors">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-accent flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/40 transition-shadow">
             <Briefcase className="w-5 h-5 text-white" />
           </div>
           <span className="text-xl font-bold tracking-tight">
-            JobFit<span className="text-brand-500">AI</span>
+            JobFit<span className="gradient-text">AI</span>
           </span>
         </Link>
-        <nav className="flex items-center gap-6">
-          <Link href="/" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+        <nav className="flex items-center gap-4">
+          <Link
+            href="/"
+            className="text-sm font-medium text-slate-400 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/5"
+          >
             Analyzer
           </Link>
-          <a href="#" className="text-sm font-medium text-slate-300 hover:text-white transition-colors flex items-center gap-1">
-            <Sparkles className="w-4 h-4 text-accent" />
-            Premium
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-9 h-9 rounded-lg border border-card-border flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 hover:bg-white/5 transition-all"
+          >
+            <Cat className="w-4 h-4" />
           </a>
         </nav>
       </div>
