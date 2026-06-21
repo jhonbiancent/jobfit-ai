@@ -106,7 +106,7 @@ export default function Home() {
       {/* Main Input Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full animate-fade-in-up delay-200">
         {/* Resume Upload */}
-        <div className="glass-card p-6 md:p-8 flex flex-col lg:col-span-1">
+        <div className="glass-card p-4 md:p-8 flex flex-col lg:col-span-1">
           <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center">
               <Upload className="w-4 h-4 text-brand-400" />
@@ -117,7 +117,7 @@ export default function Home() {
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className={`flex-1 border-2 border-dashed rounded-xl p-4 md:p-6 flex flex-col items-center justify-center text-center relative min-h-50 lg:min-h-40 transition-all duration-300 ${
+            className={`flex-1 border-2 border-dashed rounded-xl p-4 md:p-6 flex flex-col items-center justify-center text-center relative min-h-20 lg:min-h-40 transition-all duration-300 ${
               isDragOver
                 ? 'border-brand-500 bg-brand-500/5'
                 : file
