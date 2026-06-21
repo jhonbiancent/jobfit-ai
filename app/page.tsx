@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Upload, FileText, ArrowRight, Loader2, Zap, Shield, Target, CheckCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Turnstile from '@/components/ui/Turnstile';
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -10,7 +11,16 @@ export default function Home() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const router = useRouter();
+  const [turnstileKey, setTurnstileKey] = useState(0);
+  const handleTurnstileVerify = useCallback((token: string) => {
+    setTurnstileToken(token);
+  }, []);
+
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken(null);
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -41,12 +51,18 @@ export default function Home() {
       return;
     }
 
+    if (!turnstileToken) {
+      setError('Please complete the CAPTCHA verification.');
+      return;
+    }
+
     setIsAnalyzing(true);
     setError(null);
 
     const formData = new FormData();
     formData.append('resume', file);
     formData.append('jd', jdText);
+    formData.append('turnstileToken', turnstileToken);
 
     try {
       const response = await fetch('/api/analyze', {
@@ -66,6 +82,8 @@ export default function Home() {
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'An unexpected error occurred.');
+      setTurnstileToken(null);
+      setTurnstileKey((k) => k + 1);
       setIsAnalyzing(false);
     }
   };
@@ -184,11 +202,21 @@ export default function Home() {
         </div>
       )}
 
+      {/* Turnstile CAPTCHA */}
+      <div className="mt-8 animate-fade-in-up delay-300">
+        <Turnstile
+          key={turnstileKey}
+          onVerify={handleTurnstileVerify}
+          onExpire={handleTurnstileExpire}
+          onError={handleTurnstileExpire}
+        />
+      </div>
+
       {/* CTA Button */}
-      <div className="mt-10 animate-fade-in-up delay-300">
+      <div className="mt-6 animate-fade-in-up delay-300">
         <button
           onClick={handleAnalyze}
-          disabled={!file || !jdText.trim() || isAnalyzing}
+          disabled={!file || !jdText.trim() || !turnstileToken || isAnalyzing}
           className="btn-glow group relative inline-flex items-center gap-2.5 px-10 py-4 bg-linear-to-r from-brand-600 to-accent text-white rounded-full font-bold text-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40 hover:scale-[1.02] active:scale-[0.98]"
         >
           {isAnalyzing ? (

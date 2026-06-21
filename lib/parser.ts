@@ -1,4 +1,4 @@
-const pdfParse = require('pdf-parse');
+const pdfParse = require('pdf-parse/lib/pdf-parse.js');
 import * as mammoth from 'mammoth';
 
 export async function parsePdf(buffer: Buffer): Promise<string> {

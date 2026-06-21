@@ -15,13 +15,13 @@ export default function Header() {
         </Link>
         <nav className="flex items-center gap-4">
           <Link
-            href="/"
+            href="/dashboard"
             className="text-sm font-medium text-slate-400 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/5"
           >
-            Analyzer
+            Analysis
           </Link>
           <a
-            href="jhonbiancent06@gmail.com"
+            href="/"
             target="_blank"
             rel="noopener noreferrer"
             className="w-9 h-9 rounded-lg border border-card-border flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 hover:bg-white/5 transition-all"
