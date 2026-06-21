@@ -35,7 +35,7 @@ export default function Footer() {
             © {new Date().getFullYear()} JobFit AI. All rights reserved.
           </p>
           <div className="flex items-center gap-1 text-xs text-slate-600">
-            Built with <Heart className="w-3 h-3 text-red-500 mx-0.5" fill="currentColor" /> to beat the ATS.
+            Built with <Heart className="w-3 h-3 mx-0.5" fill="currentColor" /> to beat the ATS.
           </div>
         </div>
       </div>

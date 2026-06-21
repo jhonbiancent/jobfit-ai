@@ -89,13 +89,10 @@ export default function Home() {
   ];
 
   return (
-    <main className="max-w-6xl mx-auto px-6 py-8 md:py-16 flex flex-col items-center">
+    <main className="max-w-6xl mx-auto px-6 py-8 md:py-0  md:pb-16 flex flex-col items-center">
       {/* Hero */}
       <div className="text-center mb-14 mt-4 md:mt-8 animate-fade-in-up">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-500/20 bg-brand-500/5 text-brand-400 mb-8">
-          <Zap className="w-3.5 h-3.5" />
-          <span className="text-xs font-semibold tracking-wide uppercase">AI-Powered Resume Analysis</span>
-        </div>
+     
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 tracking-tight leading-tight">
           Is your resume<br className="hidden sm:block" />
           <span className="gradient-text"> JobFit?</span>
@@ -120,7 +117,7 @@ export default function Home() {
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className={`flex-1 border-2 border-dashed rounded-xl p-4 md:p-6 flex flex-col items-center justify-center text-center relative min-h-[200px] lg:min-h-0 transition-all duration-300 ${
+            className={`flex-1 border-2 border-dashed rounded-xl p-4 md:p-6 flex flex-col items-center justify-center text-center relative min-h-50 lg:min-h-40 transition-all duration-300 ${
               isDragOver
                 ? 'border-brand-500 bg-brand-500/5'
                 : file
@@ -170,7 +167,7 @@ export default function Home() {
             value={jdText}
             onChange={(e) => setJdText(e.target.value)}
             placeholder="Paste the full job description here..."
-            className="flex-1 w-full min-h-[280px] lg:min-h-[350px] bg-black/20 border border-card-border rounded-xl p-4 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/30 resize-y transition-all leading-relaxed"
+            className="flex-1 w-full min-h-70 lg:min-h-40 bg-black/20 border border-card-border rounded-xl p-4 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/30 resize-y transition-all leading-relaxed"
           ></textarea>
           <div className="flex items-center justify-between mt-3">
             <p className="text-xs text-slate-600">
@@ -192,7 +189,7 @@ export default function Home() {
         <button
           onClick={handleAnalyze}
           disabled={!file || !jdText.trim() || isAnalyzing}
-          className="btn-glow group relative inline-flex items-center gap-2.5 px-10 py-4 bg-gradient-to-r from-brand-600 to-accent text-white rounded-full font-bold text-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40 hover:scale-[1.02] active:scale-[0.98]"
+          className="btn-glow group relative inline-flex items-center gap-2.5 px-10 py-4 bg-linear-to-r from-brand-600 to-accent text-white rounded-full font-bold text-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40 hover:scale-[1.02] active:scale-[0.98]"
         >
           {isAnalyzing ? (
             <>
