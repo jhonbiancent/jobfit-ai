@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="flex flex-col items-center md:items-start gap-2">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-500 to-accent flex items-center justify-center">
+              <div className="w-7 h-7 rounded-lg bg-linear-to-br from-brand-500 to-accent flex items-center justify-center">
                 <Briefcase className="w-4 h-4 text-white" />
               </div>
               <span className="text-lg font-bold tracking-tight">
@@ -23,7 +23,7 @@ export default function Footer() {
 
           {/* Links */}
           <div className="flex items-center gap-6 text-sm text-slate-500">
-            <Link href="/" className="hover:text-slate-300 transition-colors">Analyzer</Link>
+            <Link href="/" className="hover:text-slate-300 transition-colors">Jhon Biancent Recede</Link>
             <span className="text-slate-700">·</span>
             <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">GitHub</a>
           </div>
