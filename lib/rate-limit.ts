@@ -1,4 +1,5 @@
 import { Redis } from '@upstash/redis';
+import { createHmac, timingSafeEqual } from 'node:crypto';
 import type { NextRequest } from 'next/server';
 
 export const ANALYZE_RATE_LIMIT = 5;
@@ -6,11 +7,17 @@ export const ANALYZE_WINDOW_SECONDS = 60 * 60;
 export const ANALYZE_SESSION_COOKIE = 'jobfit-session';
 export const ANALYZE_SESSION_HEADER = 'x-jobfit-session';
 export const ANALYZE_RATELIMIT_HEADER = 'x-jobfit-rate-checked';
+export const ANALYZE_RATELIMIT_PROOF_HEADER = 'x-jobfit-rate-proof';
 export const ANALYZE_RETRY_AFTER_HEADER = 'Retry-After';
 
 type RateLimitBucketResult = {
   count: number;
   ttlSeconds: number;
+};
+
+type AnalyzeIdentity = {
+  ip: string;
+  sessionId: string;
 };
 
 type RateLimitResult =
@@ -29,6 +36,7 @@ type RateLimitResult =
 
 const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
 const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+const rateLimitSecret = process.env.JOBFIT_RATE_LIMIT_SECRET;
 
 const redis =
   redisUrl && redisToken
@@ -91,6 +99,43 @@ function getRedisClient() {
   return null;
 }
 
+function getRateLimitSecret() {
+  if (rateLimitSecret) {
+    return rateLimitSecret;
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('JOBFIT_RATE_LIMIT_SECRET is missing.');
+  }
+
+  return 'jobfit-dev-rate-limit-secret';
+}
+
+function hmacDigest(value: string) {
+  return createHmac('sha256', getRateLimitSecret()).update(value).digest('hex');
+}
+
+export function createAnalyzeRateLimitProof(ip: string, sessionId: string) {
+  return hmacDigest(`${ip}:${sessionId}`);
+}
+
+export function isAnalyzeRateLimitProofValid(request: NextRequest | Request) {
+  const proof = normalizeHeaderValue(request.headers.get(ANALYZE_RATELIMIT_PROOF_HEADER));
+
+  if (!proof) {
+    return false;
+  }
+
+  const { ip, sessionId } = getAnalyzeIdentity(request);
+  const expected = createAnalyzeRateLimitProof(ip, sessionId);
+
+  if (proof.length !== expected.length) {
+    return false;
+  }
+
+  return timingSafeEqual(Buffer.from(proof), Buffer.from(expected));
+}
+
 async function touchBucket(key: string): Promise<RateLimitBucketResult> {
   const client = getRedisClient();
 
@@ -119,8 +164,14 @@ function formatRetryAfterSeconds(ipTtlSeconds: number, sessionTtlSeconds: number
   return Math.max(ipTtlSeconds, sessionTtlSeconds, 1);
 }
 
-export async function checkAnalyzeRateLimit(request: NextRequest | Request): Promise<RateLimitResult> {
-  const { ip, sessionId } = getAnalyzeIdentity(request);
+export async function checkAnalyzeRateLimit(
+  requestOrIdentity: NextRequest | Request | AnalyzeIdentity
+): Promise<RateLimitResult> {
+  const identity =
+    'ip' in requestOrIdentity && 'sessionId' in requestOrIdentity
+      ? requestOrIdentity
+      : getAnalyzeIdentity(requestOrIdentity);
+  const { ip, sessionId } = identity;
   const [ipResult, sessionResult] = await Promise.all([
     touchBucket(`jobfit:rate-limit:analyze:ip:${ip}`),
     touchBucket(`jobfit:rate-limit:analyze:session:${sessionId}`),

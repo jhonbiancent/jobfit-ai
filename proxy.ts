@@ -1,16 +1,18 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import {
-  ANALYZE_RATELIMIT_HEADER,
+  ANALYZE_RATELIMIT_PROOF_HEADER,
   ANALYZE_SESSION_COOKIE,
-  ANALYZE_SESSION_HEADER,
   checkAnalyzeRateLimit,
   getAnalyzeIdentity,
+  getAnalyzeSessionId,
+  createAnalyzeRateLimitProof,
   getRateLimitHeaders,
 } from '@/lib/rate-limit';
 
 export async function proxy(request: NextRequest) {
-  const { sessionId } = getAnalyzeIdentity(request);
-  const rateLimitResult = await checkAnalyzeRateLimit(request);
+  const { ip } = getAnalyzeIdentity(request);
+  const sessionId = getAnalyzeSessionId(request) ?? crypto.randomUUID();
+  const rateLimitResult = await checkAnalyzeRateLimit({ ip, sessionId });
 
   if (!rateLimitResult.allowed) {
     return NextResponse.json(
@@ -25,8 +27,8 @@ export async function proxy(request: NextRequest) {
   }
 
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set(ANALYZE_SESSION_HEADER, sessionId);
-  requestHeaders.set(ANALYZE_RATELIMIT_HEADER, '1');
+  requestHeaders.set('x-jobfit-session', sessionId);
+  requestHeaders.set(ANALYZE_RATELIMIT_PROOF_HEADER, createAnalyzeRateLimitProof(ip, sessionId));
 
   const response = NextResponse.next({
     request: {

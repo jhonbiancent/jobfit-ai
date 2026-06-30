@@ -3,8 +3,8 @@ import { extractTextFromFile } from '@/lib/parser';
 import { calculateKeywordScore } from '@/lib/scoring';
 import { analyzeResume } from '@/lib/llm';
 import {
-  ANALYZE_RATELIMIT_HEADER,
   checkAnalyzeRateLimit,
+  isAnalyzeRateLimitProofValid,
   getRateLimitHeaders,
 } from '@/lib/rate-limit';
 
@@ -30,7 +30,7 @@ async function verifyTurnstile(token: string, ip: string | null) {
 
 export async function POST(req: NextRequest) {
   try {
-    if (req.headers.get(ANALYZE_RATELIMIT_HEADER) !== '1') {
+    if (!isAnalyzeRateLimitProofValid(req)) {
       const rateLimitResult = await checkAnalyzeRateLimit(req);
 
       if (!rateLimitResult.allowed) {
