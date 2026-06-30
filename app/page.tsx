@@ -79,9 +79,10 @@ export default function Home() {
       // In a stateless app, we can pass the result via sessionStorage before routing
       sessionStorage.setItem('analysisResult', JSON.stringify(result.data));
       router.push('/dashboard');
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message || 'An unexpected error occurred.');
+      const message = err instanceof Error ? err.message : 'An unexpected error occurred.';
+      setError(message);
       setTurnstileToken(null);
       setTurnstileKey((k) => k + 1);
       setIsAnalyzing(false);

@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { extractTextFromFile } from '@/lib/parser';
 import { calculateKeywordScore } from '@/lib/scoring';
 import { analyzeResume } from '@/lib/llm';
+import {
+  ANALYZE_RATELIMIT_HEADER,
+  checkAnalyzeRateLimit,
+  getRateLimitHeaders,
+} from '@/lib/rate-limit';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB, matches your UI copy
 const ALLOWED_TYPES = [
@@ -25,6 +30,22 @@ async function verifyTurnstile(token: string, ip: string | null) {
 
 export async function POST(req: NextRequest) {
   try {
+    if (req.headers.get(ANALYZE_RATELIMIT_HEADER) !== '1') {
+      const rateLimitResult = await checkAnalyzeRateLimit(req);
+
+      if (!rateLimitResult.allowed) {
+        return NextResponse.json(
+          {
+            error: 'Rate limit exceeded. You can analyze up to 5 resumes per hour. Please try again later.',
+          },
+          {
+            status: 429,
+            headers: getRateLimitHeaders(rateLimitResult.retryAfterSeconds),
+          }
+        );
+      }
+    }
+
     const formData = await req.formData();
     const resumeFile = formData.get('resume') as File | null;
     const jdText = formData.get('jd') as string | null;
@@ -75,7 +96,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in analyze API:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred during analysis.' },
