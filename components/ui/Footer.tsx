@@ -23,9 +23,8 @@ export default function Footer() {
 
           {/* Links */}
           <div className="flex items-center gap-6 text-sm text-slate-500">
-            <Link href="/" className="hover:text-slate-300 transition-colors">Jhon Biancent Recede</Link>
+            <Link href="/" className="hover:text-slate-300 transition-colors">Creator: Jhon Biancent Recede</Link>
             <span className="text-slate-700">·</span>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">GitHub</a>
           </div>
         </div>
 
