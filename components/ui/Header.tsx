@@ -20,14 +20,7 @@ export default function Header() {
           >
             Analysis
           </Link>
-          <a
-            href="/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-9 h-9 rounded-lg border border-card-border flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 hover:bg-white/5 transition-all"
-          >
-            <Mail className="w-4 h-4" />
-          </a>
+       
         </nav>
       </div>
     </header>
