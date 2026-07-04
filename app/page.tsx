@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { Upload, FileText, ArrowRight, Loader2, Zap, Shield, Target, CheckCircle } from 'lucide-react';
+import { useState, useCallback, useRef } from 'react';
+import { Upload, FileText, ArrowRight, Loader2, Zap, Shield, Target, CheckCircle, GripVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Turnstile from '@/components/ui/Turnstile';
 
@@ -14,6 +14,9 @@ export default function Home() {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const router = useRouter();
   const [turnstileKey, setTurnstileKey] = useState(0);
+  const jdTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const [jdTextareaHeight, setJdTextareaHeight] = useState<number | null>(null);
+
   const handleTurnstileVerify = useCallback((token: string) => {
     setTurnstileToken(token);
   }, []);
@@ -44,6 +47,34 @@ export default function Home() {
       setFile(e.dataTransfer.files[0]);
     }
   };
+
+  const handleDescriptionResizeStart = useCallback((event: React.PointerEvent<HTMLButtonElement>) => {
+    const textarea = jdTextareaRef.current;
+    if (!textarea) return;
+
+    event.preventDefault();
+
+    const startY = event.clientY;
+    const startHeight = textarea.offsetHeight;
+    const minHeight = Number.parseFloat(window.getComputedStyle(textarea).minHeight) || startHeight;
+
+    document.body.style.cursor = 'ns-resize';
+    document.body.style.userSelect = 'none';
+
+    const handlePointerMove = (moveEvent: PointerEvent) => {
+      const nextHeight = Math.max(minHeight, startHeight + moveEvent.clientY - startY);
+      setJdTextareaHeight(nextHeight);
+    };
+
+    const handlePointerUp = () => {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      window.removeEventListener('pointermove', handlePointerMove);
+    };
+
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp, { once: true });
+  }, []);
 
   const handleAnalyze = async () => {
     if (!file || !jdText.trim()) {
@@ -183,15 +214,30 @@ export default function Home() {
             Paste Job Description
           </h2>
           <textarea
+            ref={jdTextareaRef}
             value={jdText}
             onChange={(e) => setJdText(e.target.value)}
             placeholder="Paste the full job description here..."
-            className="flex-1 w-full min-h-70 lg:min-h-40 bg-black/20 border border-card-border rounded-xl p-4 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/30 resize-y transition-all leading-relaxed"
+            style={jdTextareaHeight ? { height: jdTextareaHeight } : undefined}
+            className="block w-full min-h-70 lg:min-h-40 bg-black/20 border border-card-border rounded-xl p-4 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/30 resize-y overflow-auto transition-colors leading-relaxed"
           ></textarea>
-          <div className="flex items-center justify-between mt-3">
+          <div className="flex items-center justify-between mt-3 gap-3">
             <p className="text-xs text-slate-600">
               {jdText.length > 0 ? `${jdText.split(/\s+/).filter(Boolean).length} words` : 'Tip: include the full listing for best results'}
             </p>
+            <div className="flex justify-center gap-2 items-center">
+              <p className='text-xs inline-flex text-brand-400 w-20'>Drag to Resize</p>
+                <button
+                  type="button"
+                  onPointerDown={handleDescriptionResizeStart}
+                  aria-label="Resize job description field"
+                  title="Drag to resize"
+                  className="inline-flex h-7 w-7 shrink-0 cursor-ns-resize items-center justify-center rounded-lg border border-brand-400/10 bg-white/3 text-brand-400 transition hover:border-accent/30 hover:text-slate-300 focus:outline-none focus:ring-2 focus:ring-accent/30"
+                >
+                  <GripVertical className="w-3.5 h-3.5" />
+                </button>
+            </div>
+          
           </div>
         </div>
       </div>
