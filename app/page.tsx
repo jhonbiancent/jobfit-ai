@@ -139,7 +139,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="max-w-6xl mx-auto px-6 py-8 md:py-0  md:pb-16 flex flex-col items-center">
+    <main className="min-h-full max-w-6xl mx-auto px-6 py-8 md:py-0 md:pb-16 flex flex-col items-center">
       {/* Hero */}
       <div className="text-center mb-14 mt-4 md:mt-8 animate-fade-in-up">
      

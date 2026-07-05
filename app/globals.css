@@ -14,7 +14,7 @@
 }
 
 :root {
-  --background: #e6f2dd;
+  --background: #ffffff;
   --foreground: #1f332f;
   --muted: #5f746d;
   --card: rgba(255, 255, 255, 0.58);
@@ -25,7 +25,7 @@
 
 /* --- Base --- */
 body {
-  background-color: var(--background);
+  background-color: #ffffff;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   min-height: 100vh;
@@ -33,15 +33,7 @@ body {
 
 /* Soft paper-like surface for the light brand palette. */
 body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(115deg, rgba(230, 242, 221, 0.95), rgba(177, 211, 185, 0.46)),
-    repeating-linear-gradient(90deg, rgba(101, 146, 135, 0.045) 0 1px, transparent 1px 48px),
-    repeating-linear-gradient(0deg, rgba(101, 146, 135, 0.035) 0 1px, transparent 1px 48px);
-  pointer-events: none;
+  content: none;
 }
 
 /* --- Glass Card --- */
