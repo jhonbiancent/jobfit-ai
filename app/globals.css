@@ -1,22 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-50: #eff6ff;
-  --color-brand-100: #dbeafe;
-  --color-brand-400: #60a5fa;
-  --color-brand-500: #3b82f6;
-  --color-brand-600: #2563eb;
-  --color-brand-900: #1e3a8a;
-  --color-accent: #8b5cf6;
-  --color-accent-400: #a78bfa;
+  --color-brand-50: #f5faef;
+  --color-brand-100: #e6f2dd;
+  --color-brand-200: #d3e6cd;
+  --color-brand-300: #b1d3b9;
+  --color-brand-400: #84ac9f;
+  --color-brand-500: #659287;
+  --color-brand-600: #4f746b;
+  --color-brand-900: #263f3a;
+  --color-accent: #659287;
+  --color-accent-400: #4f746b;
 }
 
 :root {
-  --background: #0a0d14;
-  --foreground: #f1f5f9;
-  --card: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.07);
-  --card-hover: rgba(255, 255, 255, 0.06);
+  --background: #e6f2dd;
+  --foreground: #1f332f;
+  --muted: #5f746d;
+  --card: rgba(255, 255, 255, 0.58);
+  --card-border: rgba(101, 146, 135, 0.24);
+  --card-hover: rgba(255, 255, 255, 0.78);
+  --soft-surface: rgba(177, 211, 185, 0.34);
 }
 
 /* --- Base --- */
@@ -27,16 +31,16 @@ body {
   min-height: 100vh;
 }
 
-/* Animated background mesh gradient */
+/* Soft paper-like surface for the light brand palette. */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 80% 60% at 10% 40%, rgba(59, 130, 246, 0.10), transparent),
-    radial-gradient(ellipse 60% 50% at 90% 20%, rgba(139, 92, 246, 0.10), transparent),
-    radial-gradient(ellipse 50% 40% at 50% 90%, rgba(59, 130, 246, 0.05), transparent);
+    linear-gradient(115deg, rgba(230, 242, 221, 0.95), rgba(177, 211, 185, 0.46)),
+    repeating-linear-gradient(90deg, rgba(101, 146, 135, 0.045) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(0deg, rgba(101, 146, 135, 0.035) 0 1px, transparent 1px 48px);
   pointer-events: none;
 }
 
@@ -48,22 +52,22 @@ body::before {
   border: 1px solid var(--card-border);
   border-radius: 1rem;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
-    0 8px 40px rgba(0, 0, 0, 0.15);
+    0 0 0 1px rgba(255, 255, 255, 0.36) inset,
+    0 14px 38px rgba(38, 63, 58, 0.10);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .glass-card:hover {
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(101, 146, 135, 0.38);
   background: var(--card-hover);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-    0 12px 48px rgba(0, 0, 0, 0.2);
+    0 0 0 1px rgba(255, 255, 255, 0.54) inset,
+    0 18px 46px rgba(38, 63, 58, 0.14);
 }
 
 /* --- Typography --- */
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #263f3a 0%, #659287 55%, #3f635b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -87,7 +91,7 @@ body::before {
 
 .score-ring .track {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.06);
+  stroke: rgba(101, 146, 135, 0.18);
   stroke-width: var(--stroke);
 }
 
@@ -120,7 +124,7 @@ body::before {
   position: absolute;
   inset: -2px;
   border-radius: inherit;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
+  background: linear-gradient(135deg, #659287, #b1d3b9, #4f746b, #659287);
   background-size: 300% 300%;
   animation: gradient-shift 4s ease infinite;
   z-index: -1;
@@ -162,8 +166,8 @@ body::before {
 
 /* --- Subtle Pulse for Upload Drop Zone --- */
 @keyframes pulse-border {
-  0%, 100% { border-color: rgba(255, 255, 255, 0.08); }
-  50% { border-color: rgba(59, 130, 246, 0.3); }
+  0%, 100% { border-color: rgba(101, 146, 135, 0.24); }
+  50% { border-color: rgba(101, 146, 135, 0.48); }
 }
 
 .upload-zone-idle {
@@ -172,7 +176,7 @@ body::before {
 
 .upload-zone-idle:hover {
   animation: none;
-  border-color: rgba(59, 130, 246, 0.5) !important;
+  border-color: rgba(101, 146, 135, 0.72) !important;
 }
 
 /* --- Chip animations --- */
@@ -182,7 +186,7 @@ body::before {
 
 .skill-chip:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 18px rgba(38, 63, 58, 0.12);
 }
 
 /* --- Scrollbar styling --- */
@@ -195,10 +199,10 @@ body::before {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(101, 146, 135, 0.32);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(101, 146, 135, 0.54);
 }
