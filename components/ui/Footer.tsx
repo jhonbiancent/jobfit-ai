@@ -28,8 +28,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-slate-500">
+        <div className="mt-8 pt-6 border-t border-brand-100 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-brand-400">
             © {new Date().getFullYear()} JobFit AI. All rights reserved.
           </p>
           <div className="flex items-center gap-1 text-xs text-brand-400">
