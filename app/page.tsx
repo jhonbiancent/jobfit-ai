@@ -219,7 +219,7 @@ export default function Home() {
             onChange={(e) => setJdText(e.target.value)}
             placeholder="Paste the full job description here..."
             style={jdTextareaHeight ? { height: jdTextareaHeight } : undefined}
-            className="block w-full min-h-70 lg:min-h-40 bg-black/20 border border-card-border rounded-xl p-4 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/30 resize-y overflow-auto transition-colors leading-relaxed"
+            className="block w-full min-h-70 lg:min-h-40 bg-black border border-card-border rounded-xl p-4 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/30 resize-y overflow-auto transition-colors leading-relaxed"
           ></textarea>
           <div className="flex items-center justify-between mt-3 gap-3">
             <p className="text-xs text-slate-600">
@@ -287,7 +287,7 @@ export default function Home() {
             <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center mx-auto mb-4 text-brand-400 group-hover:text-white group-hover:bg-brand-500/20 group-hover:border-brand-500/20 transition-all">
               {feature.icon}
             </div>
-            <h3 className="font-semibold text-slate-200 mb-1">{feature.title}</h3>
+            <h3 className="font-semibold text-black mb-1">{feature.title}</h3>
             <p className="text-sm text-slate-500 leading-relaxed">{feature.description}</p>
           </div>
         ))}
