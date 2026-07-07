@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { Briefcase, Mail } from 'lucide-react';
+import { Briefcase } from 'lucide-react';
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full  bg-(--color-accent) backdrop-blur-xl">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-linear-to-br from-brand-100 to-brand-300 flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/40 transition-shadow">
+          <div className="w-9 h-9 rounded-xl bg-linear-to-br from-white/25 to-white/10 flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/40 transition-shadow">
             <Briefcase className="w-5 h-5 text-white" />
           </div>
           <span className="text-xl font-bold tracking-tight">
@@ -16,7 +16,7 @@ export default function Header() {
         <nav className="flex items-center gap-4">
           <Link
             href="/dashboard"
-            className="text-sm font-medium text-white hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/5"
+            className="text-sm font-medium text-white hover:text-brand-100 transition-colors px-3 py-2 rounded-lg hover:bg-white/10"
           >
             Analysis
           </Link>

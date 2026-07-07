@@ -15,38 +15,34 @@
 }
 
 :root {
-  --background: #ffffff;
+  --background: #f8f7f4;
   --foreground: #1f332f;
   --muted: #5f746d;
-  --card: rgba(255, 255, 255, 0.58);
-  --card-border: rgba(101, 146, 135, 0.24);
-  --card-hover: rgba(255, 255, 255, 0.78);
+  --card: rgba(255, 255, 255, 0.78);
+  --card-border: rgba(38, 63, 58, 0.1);
+  --card-hover: rgba(255, 255, 255, 0.92);
   --soft-surface: rgba(177, 211, 185, 0.34);
 }
 
 /* --- Base --- */
 body {
-  background-color: #ffffff;
+  background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   min-height: 100vh;
-}
-
-/* Soft paper-like surface for the light brand palette. */
-body::before {
-  content: none;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* --- Glass Card --- */
 .glass-card {
   background: var(--card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--card-border);
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.36) inset,
-    0 14px 38px rgba(38, 63, 58, 0.1);
+    0 1px 4px rgba(38, 63, 58, 0.06),
+    0 4px 16px rgba(38, 63, 58, 0.04);
   transition:
     border-color 0.3s ease,
     box-shadow 0.3s ease,
@@ -54,22 +50,22 @@ body::before {
 }
 
 .glass-card:hover {
-  border-color: rgba(101, 146, 135, 0.38);
+  border-color: rgba(38, 63, 58, 0.16);
   background: var(--card-hover);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.54) inset,
-    0 18px 46px rgba(38, 63, 58, 0.14);
+    0 2px 8px rgba(38, 63, 58, 0.08),
+    0 8px 24px rgba(38, 63, 58, 0.06);
 }
 
 /* --- Typography --- */
 .gradient-text {
-  background: linear-gradient(135deg, #263f3a 0%, #659287 55%, #3f635b 100%);
+  background: linear-gradient(135deg, #4f746b 0%, #659287 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .gradient-text-brand {
-  background: linear-gradient(135deg, #88bda4 0%, #b1d3b9 55%, #e6f2dd 100%);
+  background: linear-gradient(135deg, #4f746b 0%, #84ac9f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -119,33 +115,24 @@ body::before {
 .btn-glow {
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.btn-glow::before {
-  content: "";
+.btn-glow::after {
+  content: '';
   position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  background: linear-gradient(135deg, #659287, #b1d3b9, #4f746b, #659287);
-  background-size: 300% 300%;
-  animation: gradient-shift 4s ease infinite;
-  z-index: -1;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(101, 146, 135, 0.2) 0%, transparent 70%);
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
-.btn-glow:hover::before {
+.btn-glow:hover::after {
   opacity: 1;
-}
-
-@keyframes gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
 }
 
 /* --- Fade In Animation --- */
@@ -161,7 +148,7 @@ body::before {
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out forwards;
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   opacity: 0;
 }
 
@@ -174,31 +161,11 @@ body::before {
 .delay-300 {
   animation-delay: 0.3s;
 }
-.delay-400 {
-  animation-delay: 0.4s;
-}
-.delay-500 {
-  animation-delay: 0.5s;
-}
 
-/* --- Subtle Pulse for Upload Drop Zone --- */
-@keyframes pulse-border {
-  0%,
-  100% {
-    border-color: rgba(101, 146, 135, 0.24);
-  }
-  50% {
-    border-color: rgba(101, 146, 135, 0.48);
-  }
-}
-
-.upload-zone-idle {
-  animation: pulse-border 3s ease-in-out infinite;
-}
-
+/* --- Upload Drop Zone --- */
 .upload-zone-idle:hover {
-  animation: none;
-  border-color: rgba(101, 146, 135, 0.72) !important;
+  border-color: rgba(79, 116, 107, 0.5);
+  background: rgba(101, 146, 135, 0.05);
 }
 
 /* --- Chip animations --- */
@@ -219,14 +186,14 @@ body::before {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(101, 146, 135, 1);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(250, 250, 250, 0.8);
+  background: rgba(38, 63, 58, 0.15);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(101, 146, 135, 0.54);
+  background: rgba(38, 63, 58, 0.3);
 }

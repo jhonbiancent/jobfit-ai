@@ -12,9 +12,9 @@ function ScoreRing({ score, size = 160, stroke = 10 }: { score: number; size?: n
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (circumference * score / 100);
 
-  let color = '#22c55e'; // green
-  if (score < 50) color = '#ef4444'; // red
-  else if (score < 75) color = '#eab308'; // yellow
+  let color = '#16a34a'; // green-600
+  if (score < 50) color = '#dc2626'; // red-600
+  else if (score < 75) color = '#ca8a04'; // yellow-600
 
   return (
     <div className="score-ring" style={{ '--size': `${size}px`, '--stroke': stroke, '--score': score } as React.CSSProperties}>
@@ -39,7 +39,7 @@ function ScoreRing({ score, size = 160, stroke = 10 }: { score: number; size?: n
       </svg>
       <div className="label">
         <span className="text-5xl font-extrabold" style={{ color }}>{score}</span>
-        <span className="text-xs text-slate-500 font-medium mt-1">out of 100</span>
+        <span className="text-xs text-[var(--muted)] font-medium mt-1">out of 100</span>
       </div>
     </div>
   );
@@ -65,7 +65,7 @@ export default function Dashboard() {
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-slate-400 text-sm">Loading your results...</p>
+          <p className="text-[var(--muted)] text-sm">Loading your results...</p>
         </div>
       </div>
     );
@@ -80,10 +80,10 @@ export default function Dashboard() {
       <div className="flex items-center justify-between mb-8 animate-fade-in-up">
         <button
           onClick={() => router.push('/')}
-          className="flex items-center gap-2 text-sm text-slate-500 hover:text-white transition-colors group"
+          className="flex items-center gap-2 text-sm text-[var(--muted)] hover:text-brand-900 transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          Back to Dashboard
+          Back to Home
         </button>
         <button
           onClick={() => router.push('/')}
@@ -105,17 +105,17 @@ export default function Dashboard() {
           {/* Score Details */}
           <div className="flex-1 text-center md:text-left">
             <h1 className="text-3xl md:text-4xl font-bold mb-2">Analysis Complete</h1>
-            <p className="text-slate-400 mb-4">Here is how well your resume matches the job description.</p>
+            <p className="text-[var(--muted)] mb-4">Here is how well your resume matches the job description.</p>
 
             <div className="flex flex-wrap justify-center md:justify-start gap-3">
               <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border ${
-                data.score >= 75 ? 'bg-green-500/10 border-green-500/20 text-green-400'
-                  : data.score >= 50 ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400'
-                    : 'bg-red-500/10 border-red-500/20 text-red-400'
+                data.score >= 75 ? 'bg-green-500/10 border-green-500/20 text-green-700'
+                  : data.score >= 50 ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-700'
+                    : 'bg-red-500/10 border-red-500/20 text-red-700'
               }`}>
                 {scoreLabel}
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-white/5 border border-white/10 text-slate-400">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-brand-50 border border-brand-200 text-[var(--muted)]">
                 Keyword Score: {data.keywordScore}%
               </span>
             </div>
@@ -129,23 +129,23 @@ export default function Dashboard() {
         <div className="glass-card p-6 animate-fade-in-up delay-200">
           <h2 className="text-base font-semibold mb-5 flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center">
-              <CheckCircle2 className="w-4 h-4 text-green-400" />
+              <CheckCircle2 className="w-4 h-4 text-green-700" />
             </div>
             Strong Matches
             {data.strongMatches.length > 0 && (
-              <span className="ml-auto text-xs text-slate-600 font-normal">{data.strongMatches.length} skills</span>
+              <span className="ml-auto text-xs text-[var(--muted)] font-normal">{data.strongMatches.length} skills</span>
             )}
           </h2>
           {data.strongMatches.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {data.strongMatches.map((skill, i) => (
-                <span key={i} className="skill-chip px-3 py-1.5 rounded-lg bg-green-500/10 text-green-300 border border-green-500/15 text-sm cursor-default">
+                <span key={i} className="skill-chip px-3 py-1.5 rounded-lg bg-green-500/10 text-green-700 border border-green-500/15 text-sm cursor-default">
                   {skill}
                 </span>
               ))}
             </div>
           ) : (
-            <p className="text-slate-600 text-sm italic">No strong matches found.</p>
+            <p className="text-brand-400 text-sm italic">No strong matches found.</p>
           )}
         </div>
 
@@ -153,50 +153,50 @@ export default function Dashboard() {
         <div className="glass-card p-6 animate-fade-in-up delay-300">
           <h2 className="text-base font-semibold mb-5 flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-              <XCircle className="w-4 h-4 text-red-400" />
+              <XCircle className="w-4 h-4 text-red-700" />
             </div>
             Missing Skills
             {data.missingSkills.length > 0 && (
-              <span className="ml-auto text-xs text-slate-600 font-normal">{data.missingSkills.length} skills</span>
+              <span className="ml-auto text-xs text-[var(--muted)] font-normal">{data.missingSkills.length} skills</span>
             )}
           </h2>
           {data.missingSkills.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {data.missingSkills.map((skill, i) => (
-                <span key={i} className="skill-chip px-3 py-1.5 rounded-lg bg-red-500/10 text-red-300 border border-red-500/15 text-sm cursor-default">
+                <span key={i} className="skill-chip px-3 py-1.5 rounded-lg bg-red-500/10 text-red-700 border border-red-500/15 text-sm cursor-default">
                   {skill}
                 </span>
               ))}
             </div>
           ) : (
-            <p className="text-slate-600 text-sm italic">No missing skills detected! Great job.</p>
+            <p className="text-brand-400 text-sm italic">No missing skills detected! Great job.</p>
           )}
         </div>
 
         {/* Weaknesses */}
-        <div className="glass-card p-6 animate-fade-in-up delay-400">
+        <div className="glass-card p-6 animate-fade-in-up delay-300">
           <h2 className="text-base font-semibold mb-5 flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
-              <AlertTriangle className="w-4 h-4 text-yellow-400" />
+              <AlertTriangle className="w-4 h-4 text-yellow-700" />
             </div>
             Areas of Concern
           </h2>
           {data.weaknesses.length > 0 ? (
             <ul className="space-y-2.5">
               {data.weaknesses.map((weakness, i) => (
-                <li key={i} className="flex gap-3 text-sm text-slate-300 bg-black/20 p-3.5 rounded-xl border border-white/5 leading-relaxed">
+                <li key={i} className="flex gap-3 text-sm text-brand-900 bg-brand-50 p-3.5 rounded-xl border border-brand-200 leading-relaxed">
                   <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-yellow-500 shrink-0" />
                   {weakness}
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-slate-600 text-sm italic">No major weaknesses identified.</p>
+            <p className="text-brand-400 text-sm italic">No major weaknesses identified.</p>
           )}
         </div>
 
         {/* Recommendations */}
-        <div className="glass-card p-6 animate-fade-in-up delay-500">
+        <div className="glass-card p-6 animate-fade-in-up delay-300">
           <h2 className="text-base font-semibold mb-5 flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
               <Lightbulb className="w-4 h-4 text-accent-400" />
@@ -208,12 +208,12 @@ export default function Dashboard() {
               {data.recommendations.map((rec, i) => (
                 <li key={i} className="flex gap-3 items-start bg-accent/5 p-4 rounded-xl border border-accent/10">
                   <Target className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-                  <span className="text-sm text-slate-200 leading-relaxed">{rec}</span>
+                  <span className="text-sm text-brand-900 leading-relaxed">{rec}</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-slate-600 text-sm italic">No further recommendations.</p>
+            <p className="text-brand-400 text-sm italic">No further recommendations.</p>
           )}
         </div>
       </div>
