@@ -13,7 +13,7 @@ export default function Footer() {
                 <Briefcase className="w-4 h-4 text-white" />
               </div>
               <span className="text-lg font-bold tracking-tight">
-                JobFit<span className="gradient-text">AI</span>
+                FitFordaJob<span className="gradient-text">AI</span>
               </span>
             </Link>
             <p className="text-xs text-brand-400 max-w-xs text-center md:text-left">
@@ -30,7 +30,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-8 pt-6 border-t border-brand-100 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-xs text-brand-400">
-            © {new Date().getFullYear()} JobFit AI. All rights reserved.
+            © {new Date().getFullYear()} FitFordaJob AI. All rights reserved.
           </p>
           <div className="flex items-center gap-1 text-xs text-brand-400">
             Built with <Heart className="w-3 h-3 mx-0.5" fill="currentColor" /> to beat the ATS.

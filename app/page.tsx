@@ -178,9 +178,9 @@ export default function Home() {
       {/* Hero */}
       <div className="text-center mb-14 mt-4 md:mt-8 animate-fade-in-up">
      
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 tracking-tight leading-tight">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 tracking-tight leading-tight">
           Is your resume<br className="hidden sm:block" />
-          <span className="gradient-text"> JobFit?</span>
+          <span className="gradient-text"> Fit Forda Job?</span>
         </h1>
         <p className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
           Upload your resume, paste the job description, and let our AI score your fit,
