@@ -65,15 +65,16 @@ function openDatabase(): Promise<IDBDatabase> {
 
 async function withStore<T>(
   mode: IDBTransactionMode,
-  handler: (store: IDBObjectStore) => IDBRequest<T> | Promise<T>
+  handler: (store: IDBObjectStore) => IDBRequest<T>
 ): Promise<T> {
   const db = await openDatabase();
 
   return new Promise<T>((resolve, reject) => {
     const tx = db.transaction(ANALYSIS_CACHE_STORE, mode);
     const store = tx.objectStore(ANALYSIS_CACHE_STORE);
+    const request = handler(store);
 
-    Promise.resolve(handler(store))
+    requestToPromise(request)
       .then((result) => {
         tx.oncomplete = () => resolve(result);
         tx.onerror = () => reject(tx.error ?? new Error('Analysis cache transaction failed.'));
@@ -174,7 +175,7 @@ export async function saveAnalysisCache(input: CachedAnalysisInput) {
     result: input.result,
   });
 
-  await withStore('readwrite', (store) => requestToPromise(store.put(record)));
+  await withStore('readwrite', (store) => store.put(record));
   await pruneAnalysisCache();
 
   return record;
@@ -194,7 +195,7 @@ export async function getAnalysisCacheEntry(id: string): Promise<MaybeCachedAnal
     return null;
   }
 
-  const record = await withStore('readonly', (store) => requestToPromise(store.get(id))) as CachedAnalysisRecord | undefined;
+  const record = await withStore('readonly', (store) => store.get(id)) as CachedAnalysisRecord | undefined;
   if (!record || isExpired(record)) {
     if (record?.id) {
       await deleteAnalysisCacheEntry(record.id);
@@ -210,7 +211,7 @@ export async function deleteAnalysisCacheEntry(id: string) {
     return;
   }
 
-  await withStore('readwrite', (store) => requestToPromise(store.delete(id)));
+  await withStore('readwrite', (store) => store.delete(id));
 }
 
 export async function clearAnalysisCache() {
@@ -218,5 +219,5 @@ export async function clearAnalysisCache() {
     return;
   }
 
-  await withStore('readwrite', (store) => requestToPromise(store.clear()));
+  await withStore('readwrite', (store) => store.clear());
 }
