@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "JobFit AI — AI-Powered Resume Analyzer",
+  title: "AmIJobFit AI — AI-Powered Resume Analyzer",
   description: "Score your resume against any job description using AI. Get keyword matching, missing skill detection, and targeted improvement suggestions to beat the ATS.",
   keywords: ["resume analyzer", "ATS score", "AI resume", "job fit", "career tools"],
 };
@@ -36,7 +36,13 @@ export default function RootLayout({
     >
       <Analytics/>
       <body className="min-h-full flex flex-col relative">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          storageKey="jobfit-theme"
+          disableTransitionOnChange
+        >
           <Header />
           <div className="flex-1 w-full relative z-10">
             {children}

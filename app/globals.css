@@ -15,7 +15,7 @@
 }
 
 :root {
-  --background: #f8f7f4;
+  --background: #ffffff;
   --foreground: #1f332f;
   --muted: #5f746d;
   --card: rgba(255, 255, 255, 0.78);
@@ -26,7 +26,7 @@
 
 /* --- Base --- */
 body {
-  background-color: var(--background);
+  background-color: #ffffff;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   min-height: 100vh;
