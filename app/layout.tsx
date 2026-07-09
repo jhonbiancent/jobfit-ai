@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AmIJobFit AI — AI-Powered Resume Analyzer",
+  title: "Fit Forda Job AI — AI-Powered Resume Analyzer",
   description: "Score your resume against any job description using AI. Get keyword matching, missing skill detection, and targeted improvement suggestions to beat the ATS.",
   keywords: ["resume analyzer", "ATS score", "AI resume", "job fit", "career tools"],
 };
