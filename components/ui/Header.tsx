@@ -20,7 +20,7 @@ export default function Header() {
         {/* Navigation Section */}
         <nav className="flex items-center gap-2 sm:gap-4">
           <Link
-            href="/dashboard"
+            href="/past-analysis"
             className="hidden sm:flex text-sm font-medium text-[#d3e6cd] hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/10"
           >
             Past Analysis

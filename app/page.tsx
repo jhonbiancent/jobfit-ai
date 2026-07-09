@@ -7,7 +7,19 @@ import Turnstile from '@/components/ui/Turnstile';
 import { saveAnalysisCache } from '@/lib/analysis-cache';
 
 export default function Home() {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(() => {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    const cachedResumeText = window.sessionStorage.getItem('cachedResumeText');
+    if (!cachedResumeText) {
+      return null;
+    }
+
+    const cachedLabel = window.sessionStorage.getItem('cachedResumeLabel') || 'cached-resume.txt';
+    return new File([cachedResumeText], cachedLabel, { type: 'text/plain' });
+  });
   const [jdText, setJdText] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -216,7 +228,7 @@ export default function Home() {
               </div>
             ) : (
               <>
-                <div className="w-14 h-14 rounded-2xl bg-slate-800/50 border border-white/5 flex items-center justify-center mb-3">
+                <div className="w-14 h-14 rounded-2xl bg-brand-500/20 border border-white/5 flex items-center justify-center mb-3">
                   <Upload className="w-6 h-6 text-slate-500" />
                 </div>
                 <p className="font-medium text-slate-300 mb-1 text-sm">
@@ -242,7 +254,7 @@ export default function Home() {
             onChange={(e) => setJdText(e.target.value)}
             placeholder="Paste the full job description here..."
             style={jdTextareaHeight ? { height: jdTextareaHeight } : undefined}
-            className="block w-full min-h-70 lg:min-h-40  border border-card-border rounded-xl p-4 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/30 resize-y overflow-auto transition-colors leading-relaxed"
+            className="block w-full min-h-70 lg:min-h-40  border border-card-border rounded-xl p-4 text-sm text-black placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/30 resize-y overflow-auto transition-colors leading-relaxed"
           ></textarea>
           <div className="flex items-center justify-between mt-3 gap-3">
             <p className="text-xs text-slate-600">
