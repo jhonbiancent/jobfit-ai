@@ -141,13 +141,13 @@ export default function Home() {
   return (
     <main className="min-h-full max-w-6xl mx-auto px-6 py-8 md:py-0 md:pb-16 flex flex-col items-center">
       {/* Hero */}
-      <div className="text-center mb-10 mt-4 md:mt-8 animate-fade-in-up">
+      <div className="text-center mb-14 mt-4 md:mt-8 animate-fade-in-up">
      
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 tracking-tight leading-tight">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 tracking-tight leading-tight">
           Is your resume<br className="hidden sm:block" />
           <span className="gradient-text"> JobFit?</span>
         </h1>
-        <p className="text-base md:text-lg text-[var(--muted)] max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
           Upload your resume, paste the job description, and let our AI score your fit,
           flag missing skills, and suggest targeted improvements.
         </p>
@@ -172,7 +172,7 @@ export default function Home() {
                 ? 'border-brand-500 bg-brand-500/5'
                 : file
                   ? 'border-green-500/30 bg-green-500/5'
-                  : 'border-brand-300'
+                  : 'upload-zone-idle border-card-border'
             }`}
           >
             <input
@@ -184,22 +184,22 @@ export default function Home() {
             {file ? (
               <div className="flex flex-col items-center gap-3">
                 <div className="w-14 h-14 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
-                  <CheckCircle className="w-7 h-7 text-green-600" />
+                  <CheckCircle className="w-7 h-7 text-green-400" />
                 </div>
                 <div className="text-center">
-                  <p className="font-medium text-brand-900 break-all px-2 text-sm">{file.name}</p>
-                  <p className="text-xs text-brand-400 mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB · Ready</p>
+                  <p className="font-medium text-slate-200 break-all px-2 text-sm">{file.name}</p>
+                  <p className="text-xs text-slate-500 mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB · Ready</p>
                 </div>
               </div>
             ) : (
               <>
-                <div className="w-14 h-14 rounded-2xl bg-brand-100 border border-brand-200 flex items-center justify-center mb-3">
-                  <Upload className="w-6 h-6 text-brand-400" />
+                <div className="w-14 h-14 rounded-2xl bg-slate-800/50 border border-white/5 flex items-center justify-center mb-3">
+                  <Upload className="w-6 h-6 text-slate-500" />
                 </div>
-                <p className="font-medium text-brand-600 mb-1 text-sm">
+                <p className="font-medium text-slate-300 mb-1 text-sm">
                   Drop your file or <span className="text-brand-400">browse</span>
                 </p>
-                <p className="text-xs text-brand-400">PDF, DOCX, or TXT · Max 5MB</p>
+                <p className="text-xs text-slate-600">PDF, DOCX, or TXT · Max 5MB</p>
               </>
             )}
           </div>
@@ -219,10 +219,10 @@ export default function Home() {
             onChange={(e) => setJdText(e.target.value)}
             placeholder="Paste the full job description here..."
             style={jdTextareaHeight ? { height: jdTextareaHeight } : undefined}
-            className="block w-full min-h-70 lg:min-h-40 bg-white border border-brand-200 rounded-xl p-4 text-sm text-brand-900 placeholder:text-brand-300 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/30 resize-y overflow-auto transition-colors leading-relaxed"
+            className="block w-full min-h-70 lg:min-h-40  border border-card-border rounded-xl p-4 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/30 resize-y overflow-auto transition-colors leading-relaxed"
           ></textarea>
           <div className="flex items-center justify-between mt-3 gap-3">
-            <p className="text-xs text-brand-400">
+            <p className="text-xs text-slate-600">
               {jdText.length > 0 ? `${jdText.split(/\s+/).filter(Boolean).length} words` : 'Tip: include the full listing for best results'}
             </p>
             <div className="flex justify-center gap-2 items-center">
@@ -232,7 +232,7 @@ export default function Home() {
                   onPointerDown={handleDescriptionResizeStart}
                   aria-label="Resize job description field"
                   title="Drag to resize"
-                  className="inline-flex h-7 w-7 shrink-0 cursor-ns-resize items-center justify-center rounded-lg border border-brand-400/10 bg-brand-50 text-brand-400 transition hover:border-accent/30 hover:text-brand-600 focus:outline-none focus:ring-2 focus:ring-accent/30"
+                  className="inline-flex h-7 w-7 shrink-0 cursor-ns-resize items-center justify-center rounded-lg border border-brand-400/10 bg-white/3 text-brand-400 transition hover:border-accent/30 hover:text-slate-300 focus:outline-none focus:ring-2 focus:ring-accent/30"
                 >
                   <GripVertical className="w-3.5 h-3.5" />
                 </button>
@@ -244,7 +244,7 @@ export default function Home() {
 
       {/* Error */}
       {error && (
-        <div className="mt-8 p-4 bg-red-500/10 border border-red-500/20 text-red-600 rounded-xl w-full max-w-2xl text-center text-sm animate-fade-in-up">
+        <div className="mt-8 p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl w-full max-w-2xl text-center text-sm animate-fade-in-up">
           {error}
         </div>
       )}
@@ -264,7 +264,7 @@ export default function Home() {
         <button
           onClick={handleAnalyze}
           disabled={!file || !jdText.trim() || !turnstileToken || isAnalyzing}
-          className="group relative inline-flex items-center gap-2.5 px-10 py-4 bg-linear-to-r from-brand-600 to-accent text-white rounded-full font-bold text-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40 hover:scale-[1.02] active:scale-[0.98]"
+          className="btn-glow group relative inline-flex items-center gap-2.5 px-10 py-4 bg-linear-to-r from-brand-600 to-accent text-white rounded-full font-bold text-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40 hover:scale-[1.02] active:scale-[0.98]"
         >
           {isAnalyzing ? (
             <>
@@ -281,14 +281,14 @@ export default function Home() {
       </div>
 
       {/* Feature Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 w-full mt-14 animate-fade-in-up delay-300">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 w-full mt-20 animate-fade-in-up delay-400">
         {features.map((feature, i) => (
           <div key={i} className="glass-card p-6 text-center group">
-            <div className="w-10 h-10 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center mx-auto mb-4 text-brand-400 group-hover:text-brand-900 group-hover:bg-brand-500/20 group-hover:border-brand-500/20 transition-all">
+            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center mx-auto mb-4 text-brand-400 group-hover:text-white group-hover:bg-brand-500/20 group-hover:border-brand-500/20 transition-all">
               {feature.icon}
             </div>
-            <h3 className="font-semibold text-brand-900 mb-1">{feature.title}</h3>
-            <p className="text-sm text-[var(--muted)] leading-relaxed">{feature.description}</p>
+            <h3 className="font-semibold text-black mb-1">{feature.title}</h3>
+            <p className="text-sm text-slate-500 leading-relaxed">{feature.description}</p>
           </div>
         ))}
       </div>

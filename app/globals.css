@@ -119,13 +119,17 @@ body {
 }
 
 .btn-glow::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(101, 146, 135, 0.2) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(101, 146, 135, 0.2) 0%,
+    transparent 70%
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -196,4 +200,25 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(38, 63, 58, 0.3);
+}
+
+.dark {
+  --background: #0000;
+  --foreground: #f5faef;
+  --muted: #84ac9f;
+  --card: rgba(38, 63, 58, 0.4);
+  --card-border: rgba(132, 172, 159, 0.15);
+  --card-hover: rgba(63, 99, 91, 0.4);
+
+  --color-brand-50: #1a2926;
+  --color-brand-100: #263f3a;
+  --color-brand-200: #3f635b;
+  --color-brand-300: #4f746b;
+  --color-brand-400: #659287;
+  --color-brand-500: #84ac9f;
+  --color-brand-600: #b1d3b9;
+  --color-brand-900: #f5faef;
+
+  --color-white: #121c1a;
+  --color-black: #ffffff;
 }

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Briefcase, Sparkles, ChevronRight } from 'lucide-react';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
 export default function Header() {
   return (
@@ -24,6 +25,8 @@ export default function Header() {
           >
             Past Analysis
           </Link>
+          
+          <ThemeToggle />
           
           {/* CTA Button */}
           <Link

@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 
 import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,14 +32,17 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <Analytics/>
       <body className="min-h-full flex flex-col relative">
-        <Header />
-        <div className="flex-1 w-full relative z-10">
-          {children}
-        </div>
-        <Footer />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Header />
+          <div className="flex-1 w-full relative z-10">
+            {children}
+          </div>
+          <Footer />
+        </ThemeProvider>
         </body>
     </html>
   );
