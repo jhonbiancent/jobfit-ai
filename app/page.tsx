@@ -4,6 +4,7 @@ import { useState, useCallback, useRef } from 'react';
 import { Upload, FileText, ArrowRight, Loader2, Zap, Shield, Target, CheckCircle, GripVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Turnstile from '@/components/ui/Turnstile';
+import { saveAnalysisCache } from '@/lib/analysis-cache';
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -105,6 +106,28 @@ export default function Home() {
 
       if (!response.ok) {
         throw new Error(result.error || 'Failed to analyze resume.');
+      }
+
+      const resumeText = result.data?.resumeText;
+
+      if (typeof resumeText === 'string' && resumeText.trim().length > 0) {
+        void saveAnalysisCache({
+          resumeText,
+          resumeLabel: file.name,
+          resumeMimeType: file.type || 'application/octet-stream',
+          resumeSize: file.size,
+          jobDescription: jdText,
+          result: {
+            keywordScore: result.data.keywordScore,
+            score: result.data.score,
+            missingSkills: result.data.missingSkills,
+            strongMatches: result.data.strongMatches,
+            weaknesses: result.data.weaknesses,
+            recommendations: result.data.recommendations,
+          },
+        }).catch((cacheError) => {
+          console.error('Failed to cache analysis:', cacheError);
+        });
       }
 
       // In a stateless app, we can pass the result via sessionStorage before routing

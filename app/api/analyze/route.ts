@@ -92,6 +92,7 @@ export async function POST(req: NextRequest) {
       success: true,
       data: {
         keywordScore,
+        resumeText,
         ...analysis,
       },
     });
