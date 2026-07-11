@@ -1,12 +1,62 @@
 'use client';
-
 import { useState, useCallback, useRef } from 'react';
-import { Upload, FileText, ArrowRight, Loader2, Zap, Shield, Target, CheckCircle, GripVertical } from 'lucide-react';
+import { Upload, FileText, ArrowRight, Loader2, Zap, Shield, Target, CheckCircle, GripVertical, Check, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Turnstile from '@/components/ui/Turnstile';
 import { saveAnalysisCache } from '@/lib/analysis-cache';
 
 export default function Home() {
+
+  const plans = [
+  {
+    name: 'Quick Check',
+    price: '0',
+    period: 'forever',
+    tagline: 'See where you stand before you apply.',
+    icon: <Zap className="w-5 h-5" />,
+    features: [
+      '3 resume scans per day',
+      'Overall ATS match score',
+      'Top 5 missing keywords',
+      'Basic formatting check',
+    ],
+    cta: 'Start free',
+    highlighted: false,
+  },
+  {
+    name: 'Deep Scan',
+    price: '49',
+    period: '/month',
+    tagline: 'For anyone actively job hunting.',
+    icon: <Sparkles className="w-5 h-5" />,
+    features: [
+      'Unlimited resume scans',
+      'Full skill gap breakdown',
+      'Tailored improvement suggestions',
+      'Save scan history & compare versions',
+      'Export annotated report (PDF)',
+    ],
+    cta: 'Start Deep Scan',
+    highlighted: true,
+  },
+  {
+    name: 'Full Audit',
+    price: '99',
+    period: '/month',
+    tagline: 'For career changers and high-volume applicants.',
+    icon: <Shield className="w-5 h-5" />,
+    features: [
+      'Everything in Deep Scan',
+      'Cover letter matching',
+      'Multi-role comparison (up to 5 JDs)',
+      'Recruiter-view formatting audit',
+      'Priority analysis queue',
+    ],
+    cta: 'Start Full Audit',
+    highlighted: false,
+  },
+  ];
+  
   const [file, setFile] = useState<File | null>(() => {
     if (typeof window === 'undefined') {
       return null;
@@ -307,6 +357,72 @@ export default function Home() {
           </div>
         ))}
       </div>
+        {/* Pricing */}
+        <div className="w-full mt-24 animate-fade-in-up delay-500">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-3 tracking-tight">
+              Pick your <span className="gradient-text">scan depth</span>
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto text-sm md:text-base">
+              Start with a free check. Upgrade when you need the full picture.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            {plans.map((plan) => (
+              <div
+                key={plan.name}
+                className={`relative flex flex-col p-6 md:p-8 rounded-2xl transition-all ${
+                  plan.highlighted
+                    ? 'glass-card border-2 border-brand-500/40 shadow-xl shadow-brand-500/10 md:-translate-y-3'
+                    : 'glass-card border border-card-border'
+                }`}
+              >
+                {plan.highlighted && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-semibold px-3 py-1 rounded-full bg-linear-to-r from-brand-600 to-accent text-white shadow-md">
+                    Most popular
+                  </span>
+                )}
+
+                <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-4 text-brand-400">
+                  {plan.icon}
+                </div>
+
+                <h3 className="text-lg font-semibold mb-1">{plan.name}</h3>
+                <p className="text-sm text-slate-500 mb-5">{plan.tagline}</p>
+
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-3xl font-extrabold">₱{plan.price}</span>
+                  <span className="text-sm text-slate-500">{plan.period}</span>
+                </div>
+
+                <ul className="space-y-3 mb-8 flex-1">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-sm text-slate-500">
+                      <Check className="w-4 h-4 text-brand-400 mt-0.5 shrink-0" />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  type="button"
+                  className={`w-full py-3 rounded-full font-semibold text-sm transition-all ${
+                    plan.highlighted
+                      ? 'bg-linear-to-r from-brand-600 to-accent text-white shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40 hover:scale-[1.02]'
+                      : 'bg-white/5 border border-card-border text-slate-200 hover:bg-white/10'
+                  }`}
+                >
+                  {plan.cta}
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-xs text-slate-600 mt-8">
+            All plans include the same privacy guarantee — resumes are never stored longer than your session.
+          </p>
+        </div>
 
       {/* Loading Modal */}
       {analysisStep !== 'idle' && (
@@ -316,11 +432,11 @@ export default function Home() {
             {analysisStep === 'verifying' && (
               <>
                 <div className="w-14 h-14 rounded-full bg-brand-100 dark:bg-[#659287]/20 flex items-center justify-center mb-5">
-                  <Shield className="w-7 h-7 text-brand-600 dark:text-[#b1d3b9]" />
+                  <Shield className="w-7 h-7 text-brand-600 dark:text-brand-300" />
                 </div>
                 <h3 className="text-xl font-bold text-brand-900 dark:text-white mb-2">Security Check</h3>
                 <p className="text-sm text-brand-400 dark:text-brand-300 mb-6">Please verify you are human to proceed.</p>
-                <div className="min-h-[65px]">
+                <div className="min-h-16.25">
                   <Turnstile
                     key={turnstileKey}
                     onVerify={handleTurnstileVerify}
@@ -340,9 +456,9 @@ export default function Home() {
             {(analysisStep === 'extracting' || analysisStep === 'analyzing' || analysisStep === 'done') && (
               <>
                 <div className="relative mb-6 mt-2">
-                  <div className="w-16 h-16 rounded-full border-4 border-brand-100 dark:border-[#659287]/20 border-t-brand-500 dark:border-t-[#b1d3b9] animate-spin"></div>
+                  <div className="w-16 h-16 rounded-full border-4 border-brand-100 dark:border-[#659287]/20 border-t-brand-500 dark:border-t-brand-300 animate-spin"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Loader2 className="w-6 h-6 text-brand-500 dark:text-[#b1d3b9] animate-pulse" />
+                    <Loader2 className="w-6 h-6 text-brand-500 dark:text-brand-300 animate-pulse" />
                   </div>
                 </div>
                 
@@ -361,7 +477,7 @@ export default function Home() {
                 {/* Progress Bar */}
                 <div className="w-full bg-brand-100 dark:bg-[#659287]/20 rounded-full h-2.5 overflow-hidden">
                   <div 
-                    className="bg-brand-500 dark:bg-[#b1d3b9] h-2.5 rounded-full transition-all duration-500 ease-out"
+                    className="bg-brand-500 dark:bg-brand-300 h-2.5 rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${progress}%` }}
                   ></div>
                 </div>
